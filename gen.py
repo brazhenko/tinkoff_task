@@ -64,6 +64,11 @@ class TextGenerator(object):
             start = self.Dictionary[start][num]
         return ' '.join(text)
 
+    def dump(self):
+        with open('pairs.json', "w", encoding="utf-8") as file:
+            json.dump(self.Dictionary, file)
+
 a = TextGenerator()
 a.fit()
 print(a.generate(10, ))
+a.dump()
