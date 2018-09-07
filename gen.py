@@ -7,7 +7,7 @@ import json
 import random
 
 
-def get_words(text):
+'''def get_words(text):
     return re.compile('\w+').findall(text)
 
 res = (open('learn.txt', 'r').read())
@@ -35,3 +35,35 @@ def generate(l, start):
 
 test_txt = ' '.join(generate(100, 'охота'))
 print(text_txt)
+'''
+
+
+class TextGenerator(object):
+    def __init__(self):
+        pass
+
+    Dictionary = {}
+
+    def fit(self):
+        res = (open('learn.txt', 'r').read()).lower()
+        res = re.compile('\w+').findall(res)
+
+        for word in res:
+            if word not in self.Dictionary:
+                self.Dictionary.update([(word, [])])
+        for i in range(len(res) - 1):
+            self.Dictionary[res[i]] = self.Dictionary[res[i]] + [res[i + 1]]
+
+    def generate(self, length):
+        start = list(self.Dictionary.keys())[random.randint(0,len(self.Dictionary))]
+        text = [start]
+
+        for i in range(length):
+            num = random.randint(0, len(self.Dictionary[start]) - 1)
+            text = text + [self.Dictionary[start][num]]
+            start = self.Dictionary[start][num]
+        return ' '.join(text)
+
+a = TextGenerator()
+a.fit()
+print(a.generate(10, ))
